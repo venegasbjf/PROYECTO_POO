@@ -14,7 +14,7 @@
         }
         
         .game-card {
-          border: 1px solid #ccc;
+          border: 1px solid #007bff;
           padding: 10px;
           text-align: center;
           cursor: pointer;
@@ -59,42 +59,42 @@
   <br>
   <br>
   <div class="grid-container" id="game-container">
-    <div class="game-card accion">
+    <div class="game-card accion" onclick="toggleGameInfo(this)">
       <img class="game-image" src="../img/images/1003590/library_600x900_2x.jpg">
       <div class="game-title">Juego de Acción 1</div>
       <div class="game-info">
         Información del juego de Acción 1.
       </div>
     </div>
-    <div class="game-card aventura">
+    <div class="game-card aventura" onclick="toggleGameInfo(this)">
       <img class="game-image" src="../img/images/1029550/library_600x900_2x.jpg">
       <div class="game-title">Juego de Aventura 1</div>
       <div class="game-info">
         Información del juego de Aventura 1.
       </div>
     </div>
-    <div class="game-card estrategia">
+    <div class="game-card estrategia" onclick="toggleGameInfo(this)">
       <img class="game-image" src="../img/images/1140630/library_600x900_2x.jpg">
       <div class="game-title">Juego de Estrategia 1</div>
       <div class="game-info">
         Información del juego de Estrategia 1.
       </div>
     </div>
-    <div class="game-card deportes">
+    <div class="game-card deportes" onclick="toggleGameInfo(this)">
         <img class="game-image" src="../img/images/1180660/library_600x900_2x.jpg">
         <div class="game-title">Juego de Deportes 1</div>
         <div class="game-info">
           Información del juego de Deportes 1.
         </div>
       </div>
-    <div class="game-card terror">
+    <div class="game-card terror" onclick="toggleGameInfo(this)">
         <img class="game-image" src="../img/images/550/library_600x900_2x.jpg">
         <div class="game-title">Juego de Terror 1</div>
         <div class="game-info">
           Información del juego de Terror 1.
         </div>
     </div>
-    <div class="game-card rpg">
+    <div class="game-card rpg" onclick="toggleGameInfo(this)">
         <img class="game-image" src="../img/images/1382330/library_600x900_2x.jpg">
         <div class="game-title">Juego RPG 1</div>
         <div class="game-info">
@@ -116,13 +116,16 @@
           }
         }
         
-        var gameCards = document.getElementsByClassName("game-card");
-        for (var i = 0; i < gameCards.length; i++) {
-          gameCards[i].addEventListener("click", function() {
-            var info = this.getElementsByClassName("game-info")[0];
-            info.style.display = info.style.display === "block" ? "none" : "block";
-          });
+        function toggleGameInfo(card) {
+      var info = card.querySelector(".game-info");
+      var allGameInfos = document.querySelectorAll(".game-info");
+      for (var i = 0; i < allGameInfos.length; i++) {
+        if (allGameInfos[i] !== info) {
+          allGameInfos[i].style.display = "none";
         }
+      }
+      info.style.display = info.style.display === "block" ? "none" : "block";
+    }
       </script>
       
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
