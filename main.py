@@ -3,7 +3,7 @@ import webview
 
 
 def load_url(window):
-    window.load_url('./src/views/pre.html')
+    window.load_url('./src/views/login.html')
 
 
 window = webview.create_window(title='GameDeck', width = 1280, height = 720, \
