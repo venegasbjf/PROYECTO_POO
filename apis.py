@@ -28,15 +28,11 @@ class API(ABC):
         self._api_key = api_key
 
     def _make_get_request(self, request: Request) -> Response:
-        
         response = get(request.url, request.params, headers=request.headers, timeout=request.timeout)
-        
         response.raise_for_status()
-        
         return response
     
     def _make_tolerant_get_request(self, request: Request) -> (Response | None):
-        
         try:
             return self._make_get_request(request)
             
@@ -51,7 +47,6 @@ class API(ABC):
             logger.error(repr(e))
 
     def _make_get_requests(self, requests: list[Request], save_responses: list[Response]) -> None:
-
         while len(requests) > 0:
 
             try:
@@ -75,7 +70,6 @@ class API(ABC):
                 raise
 
     def _make_get_requests_in_chunks(self, requests: list[Request], chunk_size: int, chunk_wait_sec: float) -> list[Response]:
-
         chunked_requests = [requests[start_slice:start_slice+chunk_size] for start_slice in range(0, len(requests), chunk_size)]
         responses = []
         
@@ -99,50 +93,36 @@ class API(ABC):
         return responses
     
     def _request_image_bytes(self, url: str) -> (bytes | None):
-        
         request = Request(url)
         response = self._make_tolerant_get_request(request)
-        
         image_bytes = response.content if response else None 
-        
         return image_bytes
 
 
 class SteamAPI(API):
 
     def get_player_summaries(self, steam_id: str) -> (dict[str, str] | None):
-
         request = Request("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002", {"key": self._api_key, "steamids": steam_id})
         response = self._make_get_request(request).json()["response"]["players"]
-        
         player_summaries = {"steamid": steam_id, "personaname": response[0]["personaname"], "avatarfull": response[0]["avatarfull"], "profileurl": response[0]["profileurl"]} if response else None
-
         return player_summaries
 
     def get_owned_games(self, steam_id: str) -> (dict[int, str] | None):
-        
         request = Request("https://api.steampowered.com/IPlayerService/GetOwnedGames/v1", {"key": self._api_key, "steamid": steam_id, "include_appinfo": 1})
         response = self._make_get_request(request).json()["response"]
-        
         owned_games = {game["appid"]: game["name"] for game in response["games"]} if response else None
-        
         return owned_games
 
     def get_apps_details(self, steam_apps_ids: Iterable[int], owned_games: dict[int, str]) -> dict[int, dict[str]]:
-        
         requests = [Request("http://store.steampowered.com/api/appdetails", {"key": self._api_key, "appids": steam_appid}) for steam_appid in steam_apps_ids]
         responses = self._make_get_requests_in_chunks(requests, 65, 70)
-        
         apps_details = {}
         
         for response in responses:
             
             steam_appid, response = response.json().popitem()
-            
             steam_appid = int(steam_appid)
-            
             app_details = {}
-            
             data = response.get("data", {})
                 
             app_details["description"] = data.get("detailed_description", "")
@@ -158,55 +138,38 @@ class SteamAPI(API):
         return apps_details
     
     def get_grid(self, steam_appid: int) -> (tuple[bytes, str] | None):
-        
         grid_bytes = self._request_image_bytes(f"https://steamcdn-a.akamaihd.net/steam/apps/{steam_appid}/library_600x900_2x.jpg")
-        
         grid = (grid_bytes, "jpg") if grid_bytes else None
-        
         return grid
     
     def get_heroe(self, steam_appid: int) -> (tuple[bytes, str] | None):
-        
         heroe_bytes = self._request_image_bytes(f"https://steamcdn-a.akamaihd.net/steam/apps/{steam_appid}/library_hero.jpg")
-        
         heroe = (heroe_bytes, "jpg") if heroe_bytes else None
-        
         return heroe
         
 
 class SteamGridAPI(API):
     
     def __get_image_bytes_and_file_type_from_response(self, response: Response) -> (tuple[bytes, str] | None):
-            
         response = response.json()
             
-        if response["success"] and response["data"]:
-                
+        if response["success"] and response["data"]:   
             an_image_url = choice(response["data"])["url"]
-                
             image_bytes = self._request_image_bytes(an_image_url)
                 
-            if image_bytes:
-                    
+            if image_bytes:    
                 file_type = an_image_url.split(".").pop()
-                    
                 return image_bytes, file_type
 
     def get_grid(self, steam_appid: int) -> (tuple[bytes, str] | None):
-        
         request = Request(f"https://www.steamgriddb.com/api/v2/grids/steam/{steam_appid}", {"dimensions": "600x900"}, {"Authorization": f"Bearer {self._api_key}"})
         response = self._make_tolerant_get_request(request)
-        
         grid = self.__get_image_bytes_and_file_type_from_response(response) if response else None
-        
         return grid
         
     
     def get_heroe(self, steam_appid: int) -> (tuple[bytes, str] | None):
-        
         request = Request(f"https://www.steamgriddb.com/api/v2/heroes/steam/{steam_appid}", {"dimensions": "1920x620"}, {"Authorization": f"Bearer {self._api_key}"})
         response = self._make_tolerant_get_request(request)
-        
         heroe = self.__get_image_bytes_and_file_type_from_response(response) if response else None
-        
         return heroe

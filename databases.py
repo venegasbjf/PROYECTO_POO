@@ -3,10 +3,8 @@ from __future__ import annotations
 import os
 import sqlite3
 
-from typing import Iterable
-
 from abc import ABC
-
+from typing import Iterable
 
 class Database(ABC):
     

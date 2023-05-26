@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 
+
 class User:
     
     def __init__(self, steam_id: str) -> None:

@@ -47,7 +47,7 @@
   </nav>
 <br>
 <br>
-<div >
+<div style="display: flex; justify-content:space-evenly;">
     <button class="btn btn-primary" onclick="filterGames('todos')">Todos</button>
     <button class="btn btn-primary" onclick="filterGames('accion')">Acción</button>
     <button class="btn btn-primary" onclick="filterGames('aventura')">Aventura</button>
@@ -55,51 +55,57 @@
     <button class="btn btn-primary" onclick="filterGames('deportes')">Deportes</button>
     <button class="btn btn-primary" onclick="filterGames('terror')">Terror</button>
     <button class="btn btn-primary" onclick="filterGames('rpg')">RPG</button>
-  </div>
+    <br>
+    <br>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
+</div>
   <br>
   <br>
   <div class="grid-container" id="game-container">
     <div class="game-card accion" onclick="toggleGameInfo(this)">
       <img class="game-image" src="../img/images/1003590/library_600x900_2x.jpg">
       <div class="game-title">Juego de Acción 1</div>
-      <div class="game-info">
+      <!--<div class="game-info">
         Información del juego de Acción 1.
-      </div>
+      </div>-->
     </div>
     <div class="game-card aventura" onclick="toggleGameInfo(this)">
       <img class="game-image" src="../img/images/1029550/library_600x900_2x.jpg">
       <div class="game-title">Juego de Aventura 1</div>
-      <div class="game-info">
+      <!--<div class="game-info">
         Información del juego de Aventura 1.
-      </div>
+      </div>-->
     </div>
     <div class="game-card estrategia" onclick="toggleGameInfo(this)">
       <img class="game-image" src="../img/images/1140630/library_600x900_2x.jpg">
       <div class="game-title">Juego de Estrategia 1</div>
-      <div class="game-info">
+      <!--<div class="game-info">
         Información del juego de Estrategia 1.
-      </div>
+      </div>-->
     </div>
     <div class="game-card deportes" onclick="toggleGameInfo(this)">
         <img class="game-image" src="../img/images/1180660/library_600x900_2x.jpg">
         <div class="game-title">Juego de Deportes 1</div>
-        <div class="game-info">
+        <!--<div class="game-info">
           Información del juego de Deportes 1.
-        </div>
+        </div>-->
       </div>
     <div class="game-card terror" onclick="toggleGameInfo(this)">
         <img class="game-image" src="../img/images/550/library_600x900_2x.jpg">
         <div class="game-title">Juego de Terror 1</div>
-        <div class="game-info">
+        <!--<div class="game-info">
           Información del juego de Terror 1.
-        </div>
+        </div>-->
     </div>
     <div class="game-card rpg" onclick="toggleGameInfo(this)">
         <img class="game-image" src="../img/images/1382330/library_600x900_2x.jpg">
         <div class="game-title">Juego RPG 1</div>
-        <div class="game-info">
+        <!--<div class="game-info">
           Información del juego de RPG 1.
-        </div>
+        </div>-->
     </div>
   </div>
       
