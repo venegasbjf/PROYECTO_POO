@@ -6,7 +6,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     var steamGridApiKey = document.getElementById('steam_grid_api_key').value;
   
     // Aquí puedes verificar los valores ingresados y definir tus condiciones particulares
-    if (steamid === 'valor1' && steamApiKey === 'valor2' && steamGridApiKey === 'valor3') {
+    if (steamid === '76561198941605330' && steamApiKey === 'EA29ED634385FF016C0B0363F3F23D27' && steamGridApiKey === 'da02ff927bc9816956aa864cf62ba4ba') {
       window.location.href = './index.html'; // Redirige a la vista index
     } else {
       alert('Credenciales incorrectas');
