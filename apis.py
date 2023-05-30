@@ -149,17 +149,6 @@ class SteamAPI(API):
         
 
 class SteamGridAPI(API):
-    
-    def __get_image_bytes_and_file_type_from_response(self, response: Response) -> (tuple[bytes, str] | None):
-        response = response.json()
-            
-        if response["success"] and response["data"]:   
-            an_image_url = choice(response["data"])["url"]
-            image_bytes = self._request_image_bytes(an_image_url)
-                
-            if image_bytes:    
-                file_type = an_image_url.split(".").pop()
-                return image_bytes, file_type
 
     def get_grid(self, steam_appid: int) -> (tuple[bytes, str] | None):
         request = Request(f"https://www.steamgriddb.com/api/v2/grids/steam/{steam_appid}", {"dimensions": "600x900"}, {"Authorization": f"Bearer {self._api_key}"})
@@ -173,3 +162,14 @@ class SteamGridAPI(API):
         response = self._make_tolerant_get_request(request)
         heroe = self.__get_image_bytes_and_file_type_from_response(response) if response else None
         return heroe
+    
+    def __get_image_bytes_and_file_type_from_response(self, response: Response) -> (tuple[bytes, str] | None):
+        response = response.json()
+            
+        if response["success"] and response["data"]:   
+            an_image_url = choice(response["data"])["url"]
+            image_bytes = self._request_image_bytes(an_image_url)
+                
+            if image_bytes:    
+                file_type = an_image_url.split(".").pop()
+                return image_bytes, file_type
