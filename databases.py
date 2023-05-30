@@ -76,10 +76,12 @@ class GamesDatabase(Database):
         self._close()
         return games
     
-    def add_games(self, games: dict[int, dict[str]]) -> None:
+    def add_games(self, games_data: dict[int, dict[str]]) -> None:
         self._connect()
         
-        for app_id, game in games.items():
+        games_data_copy = {app_id: game.copy() for app_id, game in games_data.items()}
+        
+        for app_id, game in games_data_copy.items():
 
             game["developers"] = ", ".join(game["developers"])
             game["publishers"] = ", ".join(game["publishers"])

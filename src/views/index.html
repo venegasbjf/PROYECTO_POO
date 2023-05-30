@@ -1,140 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .grid-container {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-          grid-gap: 20px;
-        }
-        
-        .game-card {
-          border: 1px solid #007bff;
-          padding: 10px;
-          text-align: center;
-          cursor: pointer;
-        }
-        
-        .game-image {
-          width: 100%;
-          height: auto;
-        }
-        
-        .game-title {
-          font-weight: bold;
-          margin-top: 10px;
-        }
-        
-        .game-info {
-          display: none;
-          margin-top: 10px;
-        }
-        
-        .filter-buttons {
-          margin-bottom: 10px;
-        }
-      </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-gap: 20px;
+    }
+    
+    .game-card {
+      border: 1px solid #007bff;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .game-image {
+      width: 100%;
+      height: auto;
+    }
+    
+    .game-title {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    
+    .game-info {
+      display: none;
+      margin-top: 10px;
+    }
+    
+    .filter-buttons {
+      margin-bottom: 10px;
+    }
+    
+    .modal-title {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-<!-- As a heading -->
-<nav class="navbar navbar-light bg-primary">
+  <!-- As a heading -->
+  <nav class="navbar navbar-light bg-primary">
     <span class="navbar-brand mb-0 h1">GameDeck</span>
+    <button class="btn btn-primary" onclick="confirmLogout()">Cerrar sesión</button>
   </nav>
-<br>
-<br>
-<div style="display: flex; justify-content:space-evenly;">
-    <button class="btn btn-primary" onclick="filterGames('todos')">Todos</button>
-    <button class="btn btn-primary" onclick="filterGames('accion')">Acción</button>
-    <button class="btn btn-primary" onclick="filterGames('aventura')">Aventura</button>
-    <button class="btn btn-primary" onclick="filterGames('estrategia')">Estrategia</button>
-    <button class="btn btn-primary" onclick="filterGames('deportes')">Deportes</button>
-    <button class="btn btn-primary" onclick="filterGames('terror')">Terror</button>
-    <button class="btn btn-primary" onclick="filterGames('rpg')">RPG</button>
+  <br>
+  <br>
+  <div style="display: flex; justify-content:space-evenly;">
+    <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" id="genre-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Género
+      </button>
+      <div class="dropdown-menu" aria-labelledby="genre-dropdown">
+        <a class="dropdown-item" href="#" onclick="filterGames('todos')">Todos</a>
+        <a class="dropdown-item" href="#" onclick="filterGames('accion')">Acción</a>
+        <a class="dropdown-item" href="#" onclick="filterGames('aventura')">Aventura</a>
+        <a class="dropdown-item" href="#" onclick="filterGames('estrategia')">Estrategia</a>
+        <a class="dropdown-item" href="#" onclick="filterGames('deportes')">Deportes</a>
+        <a class="dropdown-item" href="#" onclick="filterGames('terror')">Terror</a>
+        <a class="dropdown-item" href="#" onclick="filterGames('rpg')">RPG</a>
+      </div>
+    </div>
     <br>
     <br>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
-      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+      <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="button" onclick="searchGames()">Buscar</button>
     </form>
-</div>
+  </div>
   <br>
   <br>
   <div class="grid-container" id="game-container">
-    <div class="game-card accion" onclick="toggleGameInfo(this)">
-      <img class="game-image" src="../img/images/1003590/library_600x900_2x.jpg">
-      <div class="game-title">Juego de Acción 1</div>
-      <!--<div class="game-info">
-        Información del juego de Acción 1.
-      </div>-->
-    </div>
-    <div class="game-card aventura" onclick="toggleGameInfo(this)">
-      <img class="game-image" src="../img/images/1029550/library_600x900_2x.jpg">
-      <div class="game-title">Juego de Aventura 1</div>
-      <!--<div class="game-info">
-        Información del juego de Aventura 1.
-      </div>-->
-    </div>
-    <div class="game-card estrategia" onclick="toggleGameInfo(this)">
-      <img class="game-image" src="../img/images/1140630/library_600x900_2x.jpg">
-      <div class="game-title">Juego de Estrategia 1</div>
-      <!--<div class="game-info">
-        Información del juego de Estrategia 1.
-      </div>-->
-    </div>
-    <div class="game-card deportes" onclick="toggleGameInfo(this)">
-        <img class="game-image" src="../img/images/1180660/library_600x900_2x.jpg">
-        <div class="game-title">Juego de Deportes 1</div>
-        <!--<div class="game-info">
-          Información del juego de Deportes 1.
-        </div>-->
+    <!-- Los juegos se generarán dinámicamente -->
+  </div>
+
+  <!-- Modal de cierre de sesión -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Cerrar sesión</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas cerrar sesión?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="logout()">Cerrar sesión</button>
+        </div>
       </div>
-    <div class="game-card terror" onclick="toggleGameInfo(this)">
-        <img class="game-image" src="../img/images/550/library_600x900_2x.jpg">
-        <div class="game-title">Juego de Terror 1</div>
-        <!--<div class="game-info">
-          Información del juego de Terror 1.
-        </div>-->
-    </div>
-    <div class="game-card rpg" onclick="toggleGameInfo(this)">
-        <img class="game-image" src="../img/images/1382330/library_600x900_2x.jpg">
-        <div class="game-title">Juego RPG 1</div>
-        <!--<div class="game-info">
-          Información del juego de RPG 1.
-        </div>-->
     </div>
   </div>
-      
-      <script>
-        function filterGames(genre) {
-          var gameCards = document.getElementsByClassName("game-card");
-          for (var i = 0; i < gameCards.length; i++) {
-            var card = gameCards[i];
-            if (genre === "todos" || card.classList.contains(genre)) {
-              card.style.display = "block";
-            } else {
-              card.style.display = "none";
-            }
-          }
-        }
+
+  <script>
+    
+    function confirmLogout() {
+        // Muestra un alert de confirmación de cierre de sesión
+        var result = confirm("¿Desea cerrar la sesión actual?");
         
-        function toggleGameInfo(card) {
-      var info = card.querySelector(".game-info");
-      var allGameInfos = document.querySelectorAll(".game-info");
-      for (var i = 0; i < allGameInfos.length; i++) {
-        if (allGameInfos[i] !== info) {
-          allGameInfos[i].style.display = "none";
+        if (result) {
+            // Lógica para cerrar sesión
+            // Aquí puedes agregar tu propia implementación para limpiar las variables de sesión, eliminar cookies, etc.
+            // Por ahora, simplemente redireccionaremos a otra vista después de cerrar sesión
+            redirectToLogin();
+        }
+    }
+
+    function redirectToLogin() {
+        // Redireccionar a la vista de inicio de sesión o cualquier otra vista después de cerrar sesión
+        window.location.href = "login.html";
+    }
+
+    // Cargar los juegos desde el archivo JSON
+    function loadGames() {
+      fetch('library/data/76561198941605330/owned_games.json')
+        .then(response => response.json())
+        .then(data => generateGameElements(data))
+        .catch(error => console.error('Error al cargar los juegos:', error));
+    }
+
+    // Generar los elementos de juego a partir de los datos del archivo JSON
+    function generateGameElements(gamesData) {
+      var container = document.getElementById("game-container");
+
+      // Iterar sobre los datos de juegos y generar los elementos de juego
+      for (var gameId in gamesData) {
+        var game = gamesData[gameId];
+        var gameCard = document.createElement("div");
+        gameCard.className = "game-card";
+        gameCard.setAttribute("data-genre", game.genre);
+        gameCard.onclick = function() {
+          var gameInfo = this.querySelector(".game-info");
+          gameInfo.style.display = gameInfo.style.display === "block" ? "none" : "block";
+        };
+
+        var gameImage = document.createElement("img");
+        gameImage.className = "game-image";
+        gameImage.src = "library/images/" + gameId + "/game-image.jpg";
+        gameCard.appendChild(gameImage);
+
+        var gameTitle = document.createElement("div");
+        gameTitle.className = "game-title";
+        gameTitle.innerText = game.title;
+        gameCard.appendChild(gameTitle);
+
+        var gameInfo = document.createElement("div");
+        gameInfo.className = "game-info";
+        gameInfo.innerText = "Información del juego";
+        gameCard.appendChild(gameInfo);
+
+        container.appendChild(gameCard);
+      }
+    }
+
+    // Función para filtrar los juegos por género
+    function filterGames(genre) {
+      var gameCards = document.getElementsByClassName("game-card");
+      for (var i = 0; i < gameCards.length; i++) {
+        var card = gameCards[i];
+        var cardGenre = card.getAttribute("data-genre");
+
+        if (genre === "todos" || cardGenre === genre) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
         }
       }
-      info.style.display = info.style.display === "block" ? "none" : "block";
     }
-      </script>
-      
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>    <title>Document</title>
+
+    // Función para realizar la búsqueda de juegos por nombre
+    function searchGames() {
+      var searchTerm = document.getElementById("search-input").value.toLowerCase();
+
+      var gameCards = document.getElementsByClassName("game-card");
+      for (var i = 0; i < gameCards.length; i++) {
+        var card = gameCards[i];
+        var cardTitle = card.querySelector(".game-title").innerText.toLowerCase();
+
+        if (cardTitle.includes(searchTerm)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      }
+    }
+
+    // Función para cerrar sesión
+    function logout() {
+      // Aquí puedes agregar la lógica para cerrar sesión, redireccionar, etc.
+      alert("Sesión cerrada exitosamente");
+    }
+
+    // Cargar los juegos al cargar la página
+    document.addEventListener("DOMContentLoaded", function() {
+      loadGames();
+    });
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-HR46Xo0Hjx+g+LJcC9A0Vv/f4kiuhd4H/5khks9vBq2kWjxU/LD2otmBWq32yI3C" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-EBHGh1+Ai7+Ad8ZfS9r8VI6zddE2jOExm2wUL5Gq/rWIn6aa62SXdiqUSP3Ie5z/" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-AjxZ6f0mNud54kDVoOpHdQziI0QD9mQbS7gmefc3K6GLhWwQCBfxX7nMNeqDssbK" crossorigin="anonymous"></script>
 </body>
 </html>

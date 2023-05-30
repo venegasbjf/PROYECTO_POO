@@ -80,11 +80,11 @@ class API(ABC):
                 del chunked_requests[-1]
                 
             except ConnectionError as e:
-                logger.warning("Conexión perdida: "+ repr(e))
+                logger.warning("Conexión perdida: "+ str(e))
                 break
             
             except RequestException as e:
-                logger.warning("Ocurrio un error mientras se realizaban peticiones a la API: " + repr(e))  
+                logger.warning("Ocurrio un error mientras se realizaban peticiones a la API: " + str(e))  
                 break
                 
             if chunked_requests:
