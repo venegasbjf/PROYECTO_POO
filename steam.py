@@ -36,15 +36,15 @@ class Steam:
         state_flags = ""
         
         with open(appmanifest_path) as appmanifest_file:
-            state_flags = list(appmanifest_file)[6].strip()[1]
+            state_flags = list(appmanifest_file)[6]
             
-        if state_flags == "4":
+        if '"4"' in state_flags:
             return "Installed"
         
-        if state_flags == "6":
+        if '"6"' in state_flags:
             return "Installed, need to update"
         
-        if state_flags == "1026":
+        if '"1026"' in state_flags:
             return "Not installed, updating"
         
         else:

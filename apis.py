@@ -155,7 +155,6 @@ class SteamGridAPI(API):
         response = self._make_tolerant_get_request(request)
         grid = self.__get_image_bytes_and_file_type_from_response(response) if response else None
         return grid
-        
     
     def get_heroe(self, steam_appid: int) -> (tuple[bytes, str] | None):
         request = Request(f"https://www.steamgriddb.com/api/v2/heroes/steam/{steam_appid}", {"dimensions": "1920x620"}, {"Authorization": f"Bearer {self._api_key}"})

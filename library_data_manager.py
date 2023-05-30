@@ -99,7 +99,7 @@ class LibraryDataManager:
             self.__write_image_bytes(steam_appid, heroe_bytes, "library_hero", file_type)
     
     def __write_image_bytes(self, steam_appid: int, image_bytes: bytes, file_name: str, file_type: str) -> None:
-        game_folder_path = os.path.join("library", "images", str(steam_appid))
+        game_folder_path = os.path.join("src", "images", str(steam_appid))
         os.makedirs(game_folder_path, exist_ok=True)
         image_path = os.path.join(game_folder_path, file_name + "." + file_type)
         
@@ -111,7 +111,7 @@ class LibraryDataManager:
             logger.error(f"Ocurrio un error mientras se escribian los bits de la imagen {file_name} del juego {steam_appid}") 
             
     def __games_with_images(self, steam_apps_ids: Iterable[int]) -> dict[str, set[int]]:
-        images_folder_path = os.path.join("library", "images")
+        images_folder_path = os.path.join("src", "images")
         accepted_file_types = {".jpg", ".png", ".webp"}
         images = {"library_600x900_2x": set(), "library_hero": set()}
         

@@ -28,6 +28,8 @@ class Library:
 
         self.__data_manager.get_images(library_data["games_data"])
         
+        self.__data_manager.write_user_json_file("data", library_data)
+        
         return library_data
     
     def update_favorite_games(self, favorite_games: dict[str, int]) -> None:

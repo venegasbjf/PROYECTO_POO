@@ -23,7 +23,7 @@ def main():
         libreria = Library(usuario["steam_id"], usuario["steam_api_key"], usuario["steam_grid_api_key"])
         info_libreria = libreria.create_user_library()
         return info_libreria
-        
+    
     libreria = None
     
     eel.init("src")
