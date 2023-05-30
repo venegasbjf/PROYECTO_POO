@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="/eel.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <style>
     .grid-container {
@@ -100,7 +101,11 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+
+    var data = await eel.crear_libreria({"steam_id": localStorage.getItem("steam_id"), "steam_api_key": localStorage.getItem("steam_api_key"), "steam_grid_api_key": localStorage.getItem("steam_grid_api_key")})();
+
+    console.log(data);
     
     function confirmLogout() {
         // Muestra un alert de confirmación de cierre de sesión
