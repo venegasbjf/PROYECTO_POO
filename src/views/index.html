@@ -126,10 +126,7 @@
 
     // Cargar los juegos desde el archivo JSON
     function loadGames() {
-      fetch('library/data/76561198941605330/owned_games.json')
-        .then(response => response.json())
-        .then(data => generateGameElements(data))
-        .catch(error => console.error('Error al cargar los juegos:', error));
+      generateGameElements(data["games_data"])
     }
 
     // Generar los elementos de juego a partir de los datos del archivo JSON
@@ -141,6 +138,7 @@
         var game = gamesData[gameId];
         var gameCard = document.createElement("div");
         gameCard.className = "game-card";
+
         gameCard.setAttribute("data-genre", game.genre);
         gameCard.onclick = function() {
           var gameInfo = this.querySelector(".game-info");
@@ -149,12 +147,12 @@
 
         var gameImage = document.createElement("img");
         gameImage.className = "game-image";
-        gameImage.src = "library/images/" + gameId + "/game-image.jpg";
+        gameImage.setAttribute("src", "../images/" + gameId + "/library_600x900_2x.jpg");
         gameCard.appendChild(gameImage);
 
         var gameTitle = document.createElement("div");
         gameTitle.className = "game-title";
-        gameTitle.innerText = game.title;
+        gameTitle.innerText = data["games_data"][gameId]["name"];
         gameCard.appendChild(gameTitle);
 
         var gameInfo = document.createElement("div");
@@ -205,9 +203,7 @@
     }
 
     // Cargar los juegos al cargar la página
-    document.addEventListener("DOMContentLoaded", function() {
-      loadGames();
-    });
+    loadGames()
   </script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-HR46Xo0Hjx+g+LJcC9A0Vv/f4kiuhd4H/5khks9vBq2kWjxU/LD2otmBWq32yI3C" crossorigin="anonymous"></script>
